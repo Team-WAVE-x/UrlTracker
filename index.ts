@@ -25,7 +25,7 @@ client.on('message', (msg) => {
   if (msg.author.id === client.user?.id) return
   if (msg.channel.id !== '714384357648891924') return // for debug
 
-  const splits = msg.content.split(' ')
+  const splits = msg.content.split('\n').join(' ').split(' ')
   const links = splits.filter((v) => v.startsWith('http://') || v.startsWith('https://'))
 
   links.forEach(async (link) => {
