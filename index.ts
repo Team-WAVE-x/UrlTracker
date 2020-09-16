@@ -1,11 +1,11 @@
 import { resolve as path } from 'path'
 import { readRecursively } from './utils/index.js'
-import { Client, MessageEmbed } from 'discord.js'
+import { Client, Message, MessageEmbed } from 'discord.js'
 const client: Client = new Client()
 
 interface parser {
   suffix: string[],
-  fetch: (link: string) => Promise<MessageEmbed | null>
+  fetch: (link: string, msg: Message) => Promise<MessageEmbed | null>
 }
 const parsers: parser[] = []
 const parserpaths: string[] = readRecursively(path() + '/dist/parsers')
@@ -32,7 +32,7 @@ client.on('message', (msg) => {
     const parser = parsers.filter((v) => !!v.suffix.filter((v2) => link.startsWith(v2)))[0]
     if (!parser) return
     
-    const res: MessageEmbed | null = await parser.fetch(link)
+    const res: MessageEmbed | null = await parser.fetch(link, msg)
     if (!res) return
 
     msg.channel.send(res)
