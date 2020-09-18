@@ -1,5 +1,9 @@
 import { readdirSync, statSync } from 'fs'
 
+function toReadableNumber (num: number): string {
+  return num.toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).replace('€', '')
+}
+
 // from https://gist.github.com/kethinov/6658166
 function readRecursively (dir: string, filelist: string[] = []) {
   const files = readdirSync(dir)
@@ -12,4 +16,4 @@ function readRecursively (dir: string, filelist: string[] = []) {
   return filelist
 }
 
-export { readRecursively }
+export { toReadableNumber, readRecursively }

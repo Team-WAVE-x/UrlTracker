@@ -1,3 +1,4 @@
+import { toReadableNumber } from '../../utils/index.js'
 import { Message, MessageEmbed } from 'discord.js'
 import superagent from 'superagent'
 import moment from 'moment'
@@ -17,9 +18,9 @@ async function fetch (link: string, msg: Message): Promise<MessageEmbed | null> 
   const description = res.body.name + ' - ' + res.body.owner.login
   const fields: field[] = []
   
-  fields.push({ name: '스타 개수', value: res.body.stargazers_count.toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).replace('€', '') + '회', inline: true })
-  fields.push({ name: '포크 개수', value: res.body.forks.toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).replace('€', '') + '개', inline: true })
-  fields.push({ name: '코드 크기', value: res.body.size.toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).replace('€', '') + 'KB', inline: true })
+  fields.push({ name: '스타 개수', value: toReadableNumber(res.body.stargazers_count) + '회', inline: true })
+  fields.push({ name: '포크 개수', value: toReadableNumber(res.body.forks) + '개', inline: true })
+  fields.push({ name: '코드 크기', value: toReadableNumber(res.body.size) + 'KB', inline: true })
   fields.push({ name: '레포 개설일', value: moment(res.body.created_at).format('YYYY-M-D'), inline: true })
   
   const lastCommit = await superagent.get('https://api.github.com/repos' + url.pathname + '/commits?per_page=1&page=0').set('User-Agent', 'UrlTracker').catch(() => {})

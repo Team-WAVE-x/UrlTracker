@@ -1,3 +1,4 @@
+import { toReadableNumber } from '../../utils/index.js'
 import { Message, MessageEmbed } from 'discord.js'
 import yts, { VideoMetadataResult } from 'yt-search'
 
@@ -28,7 +29,7 @@ async function fetch (link: string, msg: Message): Promise<MessageEmbed | null> 
   const description = info.title + ' - ' + info.author.name
   const fields: field[] = []
 
-  fields.push({ name: '조회수', value: info.views.toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).replace('€', '') + '회', inline: true })
+  fields.push({ name: '조회수', value: toReadableNumber(info.views) + '회', inline: true })
   fields.push({ name: '길이', value: new Date(info.duration.seconds * 1000).toISOString().substr(11, 8), inline: true })
   fields.push({ name: '업로드일', value: info.uploadDate, inline: true })
   fields.push({ name: '분류', value: info.genre, inline: true })
