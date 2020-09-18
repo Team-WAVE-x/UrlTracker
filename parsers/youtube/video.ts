@@ -7,12 +7,12 @@ interface field {
   inline?: boolean
 }
 
-const suffix = ['http://youtube.com/watch', 'https://youtube.com/watch', 'http://youtu.be', 'https://youtu.be']
+const suffix = ['http://youtube.com/watch', 'https://youtube.com/watch', 'http://www.youtube.com/watch', 'https://www.youtube.com/watch', 'http://youtu.be', 'https://youtu.be']
 async function fetch (link: string, msg: Message): Promise<MessageEmbed | null> {
   const url = new URL(link)
   let id: string | null = null
   switch (url.hostname) {
-    case 'youtube.com': { id = url.searchParams.get('v'); break }
+    case 'youtube.com':
     case 'www.youtube.com': { id = url.searchParams.get('v'); break }
     case 'youtu.be': { id = url.pathname.split('/')[1]; break }
   }
