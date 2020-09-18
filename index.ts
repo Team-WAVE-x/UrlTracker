@@ -27,9 +27,9 @@ client.on('message', (msg) => {
 
   const splits = msg.content.split('\n').join(' ').split(' ')
   const links = splits.filter((v) => v.startsWith('http://') || v.startsWith('https://'))
-
+  
   links.forEach(async (link) => {
-    const parser = parsers.filter((v) => !!v.suffix.filter((v2) => link.startsWith(v2)))[0]
+    const parser = parsers.filter((v) => v.suffix.filter((v2) => link.startsWith(v2)).length > 0)[0]
     if (!parser) return
     
     const res: MessageEmbed | null = await parser.fetch(link, msg)
